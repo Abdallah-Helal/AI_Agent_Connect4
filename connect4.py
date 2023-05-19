@@ -84,3 +84,51 @@ def minimax(board, depth, is_max):
 			
 		return column, value
 
+def minimax_AlphaBeta(board, depth, alpha, beta, maximizing): 
+	flag = is_terminal(board)
+	if depth == 0 or flag:
+		if flag:
+			if is_winning(board, AI_PIECE):
+				return (0, MAX)
+			elif is_winning(board, computer_PIECE):
+				return (0, MIN)
+			else: # Game is over, no more valid moves
+				return (0, 0)
+		else: # Depth is zero
+			return (0, get_score(board, AI_PIECE))
+    # if it isn't the terminal node continue 
+    # get the empty or valid colume 
+	empty_locations = []
+	for col in range(COLUMN_COUNT):
+		if board[0][col] == 0:
+			empty_locations.append(col)
+
+	if maximizing:
+		value = MIN
+		column = empty_locations[0]
+		for location in empty_locations:
+			board_copy = copy.deepcopy(board)
+			put_piece(board_copy, location, AI_PIECE)
+			new_value = minimax_AlphaBeta(board_copy, depth-1, alpha, beta, False)[1]
+			if new_value > value:
+				value = new_value
+				column = location
+			alpha = max(alpha, value)
+			if alpha >= beta:
+				break
+		return column, value
+	else: # Minimizing computer
+		value = MAX
+		column =empty_locations[0]
+		for location in empty_locations:
+			board_copy = board.copy()
+			put_piece(board_copy,location, computer_PIECE)
+			new_value = minimax_AlphaBeta(board_copy, depth-1, alpha, beta, True)[1]
+			if new_value < value:
+				value = new_value
+				column = location
+			beta = min(beta, value)
+			if alpha >= beta:
+				break
+		return column, value
+
