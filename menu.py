@@ -1,5 +1,5 @@
 import tkinter
-import Connect4
+import connect4
 from tkinter import *
 from tkinter import messagebox
 
@@ -13,7 +13,7 @@ def startGame():
     chosen_algorithm = algorithm.get()
     chosen_difficulty = difficulty.get()
 
-    Connect4.Game(chosen_algorithm,chosen_difficulty)
+    connect4.Game(chosen_algorithm,chosen_difficulty)
 
 #Choosing the algorithm type
 label = tkinter.Label(window,text="Select an Algorithm")
